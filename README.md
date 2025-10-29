@@ -38,14 +38,32 @@ A transformer-based NLP model (DistilBERT) will be trained on English news artic
 2. **Duplicate Removal** → 6,252 duplicates dropped.  
 3. **Short Text Filter** → 144 rows under 50 chars removed.  
 4. **Text Normalization** → URLs, special symbols, and extra whitespace removed.  
-5. **Merged Columns** → Created `content` by concatenating `title` + `text`.  
+5. **Merged Columns** → Created `content` by combining `title` + `text`.  
 6. **Final Shape:** `38,502 rows × 6 columns`
-
+7. **Cleaned Dataset Saved:** Exported as `cleaned_combined.csv` under `data/processed/`
 ### **Label Distribution**
 | Class | Label | Proportion |
 |--------|--------|-------------|
 | Real News | 1 | 55% |
 | Fake News | 0 | 45% |
+
+---
+
+## ⚠️ Note on Git LFS Files
+
+This repository uses **Git Large File Storage (LFS)** to handle large datasets efficiently.  
+The following files are tracked via Git LFS:
+
+- `data/processed/cleaned_combined.csv`
+- `datasets/Fake.csv`
+- `datasets/True.csv`
+
+These files may not appear directly in the GitHub web interface due to LFS handling,  
+but they will be automatically downloaded after cloning the repository by running:
+
+`git lfs install`
+
+`git lfs pull`
 
 ---
 
