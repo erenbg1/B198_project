@@ -10,9 +10,9 @@ scikit-learn>=1.5.2
 
 # NLP & Transformers
 torch>=2.9.0
-transformers==4.45.1
+transformers>=4.45.1
 datasets==3.0.1
-tokenizers==0.19.1
+tokenizers>=0.20.0
 
 # Explainability
 shap==0.45.1
