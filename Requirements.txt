@@ -6,10 +6,10 @@ numpy==1.26.4
 matplotlib==3.9.2
 
 # Machine Learning
-scikit-learn==1.5.2
+scikit-learn>=1.5.2
 
 # NLP & Transformers
-torch==2.4.1
+torch>=2.9.0
 transformers==4.45.1
 datasets==3.0.1
 tokenizers==0.19.1
