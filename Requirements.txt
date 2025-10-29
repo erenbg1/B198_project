@@ -1,0 +1,21 @@
+# Core data handling
+pandas==2.2.2
+numpy==1.26.4
+
+# Visualization
+matplotlib==3.9.2
+
+# Machine Learning
+scikit-learn==1.5.2
+
+# NLP & Transformers
+torch==2.4.1
+transformers==4.45.1
+datasets==3.0.1
+tokenizers==0.19.1
+
+# Explainability
+shap==0.45.1
+
+# Utilities
+tqdm==4.66.5
