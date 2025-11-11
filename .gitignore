@@ -1,48 +1,26 @@
-# =======================
-# Python & Jupyter Project .gitignore
-# =======================
-
-# OS-specific files
+# ---- SYSTEM FILES ----
 .DS_Store
-Thumbs.db
-
-# Python cache and build files
 __pycache__/
-*.py[cod]
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
-.eggs/
-
-# Virtual environments
-.env
-.venv
-env/
-venv/
-ENV/
-
-# Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Logs and temporary files
-*.log
-*.tmp
-*.swp
-
-# IDE settings
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# Data & model files (optional large files)
-*.h5
-*.pkl
-*.ckpt
-*.pt
+# ---- TRAINING OUTPUTS ----
+checkpoints/
+results/
 *.bin
+*.pt
+*.h5
+*.ckpt
+*.log
+*.out
 
-# Backup files
-*~
+# ---- CACHE ----
+cache/
+huggingface/
+tokenizer_config.json
+trainer_state.json
+runs/
+wandb/
+
+# ---- PYTHON ENVS ----
+venv/
+.env/
