@@ -34,7 +34,7 @@ df = load_dataset()
 st.title("🕵️ Fake News Detection App")
 st.write("This app uses our fine-tuned **DistilBERT model** to classify news as real or fake.")
 st.markdown("---")
-st.markdown("<h4 style='color:#0A66C2'>📈 Model Accuracy: 98.6%</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='color:#0A66C2'>📈 Model Accuracy: 99.87%</h4>", unsafe_allow_html=True)
 
 # --- Static examples (2 real + 2 fake) ---
 st.subheader("🧩 Example News Samples")
