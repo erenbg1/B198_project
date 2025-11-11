@@ -20,11 +20,11 @@ A transformer-based NLP model (**DistilBERT**) was fine-tuned on English news ar
 
 ## 📚 Verified Literature (2023–2025)
 
-1. **Ramzan, A., Ali, R. H., Ali, N., & Khan, A. (2024).** *Enhancing Fake News Detection Using BERT: A Comparative Analysis of Logistic Regression, RFC, LSTM and BERT.* In 2024 International Conference on IT and Industrial Technologies (ICIT). IEEE. DOI: [10.1109/ICIT63607.2024.10859673](https://doi.org/10.1109/ICIT63607.2024.10859673)
-
-2. **Kitanovski, M., & Mitrevski, P. (2023).** *DistilBERT and RoBERTa Models for Identification of Fake News.* 46th MIPRO ICT and Electronics Convention. IEEE. DOI: [10.23919/MIPRO57284.2023.10159740](https://doi.org/10.23919/MIPRO57284.2023.10159740)
-
+1. **Ramzan, A., Ali, R. H., Ali, N., & Khan, A. (2024).** *Enhancing Fake News Detection Using BERT: A Comparative Analysis of Logistic Regression, RFC, LSTM and BERT.* In 2024 International Conference on IT and Industrial Technologies (ICIT). IEEE. DOI: [10.1109/ICIT63607.2024.10859673](https://doi.org/10.1109/ICIT63607.2024.10859673)  
+2. **Kitanovski, M., & Mitrevski, P. (2023).** *DistilBERT and RoBERTa Models for Identification of Fake News.* 46th MIPRO ICT and Electronics Convention. IEEE. DOI: [10.23919/MIPRO57284.2023.10159740](https://doi.org/10.23919/MIPRO57284.2023.10159740)  
 3. **Saadi, A., Belhadef, H., Guessas, A., & Hafirassou, O. (2025).** *Enhancing Fake News Detection with Transformer Models and Summarization.* *Engineering, Technology & Applied Science Research, 15*(3), 23253–23259. DOI: [10.48084/etasr.10678](https://doi.org/10.48084/etasr.10678)
+
+*Dataset citation:* Kaggle. *Fake and Real News Dataset.* Retrieved 2025.
 
 ---
 
@@ -44,29 +44,39 @@ A transformer-based NLP model (**DistilBERT**) was fine-tuned on English news ar
 
 The `content` column merges **title** and **text** to create richer contextual input for modeling.
 
+Cleaning highlights:
+- Removed duplicates
+- Filtered very short texts (<50 characters)
+- Normalized text (URLs, symbols, whitespace)
+
 ---
 
 ## ⚙️ Model Architecture & Workflow
 
 ### 1️⃣ Baseline Model
 - **TF-IDF + Logistic Regression**
-- Metrics:  
+- Metrics (validated from notebooks & figures):  
   | Metric | TF-IDF + Logistic Regression | DistilBERT (Fine-Tuned) |
   |:--|:--:|:--:|
-  | Accuracy | 0.9856 | 0.9987 |
-  | Precision | 0.9818 | 0.9987 |
-  | Recall | 0.9922 | 0.9987 |
-  | F1-score | 0.9870 | 0.9987 |
-- Served as interpretability baseline.
+  | Accuracy | **0.9856** | **0.9987** |
+  | Precision | **0.9818** | **0.9987** |
+  | Recall | **0.9922** | **0.9987** |
+  | F1-score | **0.9870** | **0.9987** |
+- Total misclassifications: **111** (LogReg) vs **10** (DistilBERT).  
+- Confusion matrices and metric bars are available under `figures/`.
 
 ### 2️⃣ Fine-Tuned Model
-- **DistilBERT Base Uncased** (Hugging Face)
-- Optimizer: AdamW  
-- Learning Rate: 2e-5  
-- Batch Size: 16  
-- Training Epochs: 3  
-- Validation metrics shown above.  
-- Metrics visualization: `figures/metrics_comparison_bar.png`, `figures/confusion_matrices_comparison.png`
+- **Model:** DistilBERT Base Uncased (Hugging Face)
+- **Optimizer:** AdamW (Hugging Face Trainer)
+- **Learning Rate:** 2e-5
+- **Epochs:** 2
+- **Batch Size:** 8 (train & eval)
+- **Warmup Steps:** 100
+- **Weight Decay:** 0.01
+- **Evaluation Strategy:** Per epoch
+- **Save Strategy:** Per epoch
+- **Final Accuracy:** **0.9987** (validation set)
+- **Metrics Visualization:** `figures/metrics_comparison_bar.png`, `figures/confusion_matrices_comparison.png`, `figures/total_misclassifications.png`
 
 ### 3️⃣ Explainability
 **SHAP (SHapley Additive Explanations)** will be integrated in a future version to interpret token-level importance and explain model decisions.
@@ -113,7 +123,6 @@ Tracked via LFS:
 - `trained_distilbert_fake_news/model.safetensors`
 
 If cloning the repo, run:
-
 ```bash
 git lfs install
 git lfs pull
@@ -128,7 +137,7 @@ git lfs pull
 | NLP | Transformers, Datasets, Tokenizers |
 | ML | PyTorch, Accelerate, Safetensors |
 | Visualization | Matplotlib |
-| Explainability | SHAP |
+| Explainability | SHAP (planned) |
 | Dashboard | Streamlit |
 | Dev Tools | JupyterLab, Git, Git LFS |
 
@@ -157,13 +166,12 @@ git lfs pull
 ```bash
 streamlit run app.py
 ```
-
 The dashboard allows users to test news articles in real time and view prediction confidence.
 
 ---
 
 ## 🧠 Results Summary
-The TF-IDF baseline achieved **98.5% accuracy**, while the fine-tuned **DistilBERT reached 99.8%**.  
+The TF-IDF baseline achieved **98.56% accuracy**, while the fine-tuned **DistilBERT reached 99.87%** on the validation set.  
 Removing very short texts (<50 characters) improved overall consistency and model focus.
 
 ---
