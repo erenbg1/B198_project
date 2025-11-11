@@ -178,8 +178,7 @@ Removing very short texts (<50 characters) improved overall consistency and mode
 
 ## 🔮 Future Work
 - Add SHAP explainability  
-- Add multilingual dataset  
-- Include human comparison in report phase  
+- Add multilingual dataset 
 - Deploy as online verification tool  
 
 ---
