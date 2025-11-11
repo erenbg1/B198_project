@@ -26,8 +26,6 @@ A transformer-based NLP model (**DistilBERT**) was fine-tuned on English news ar
 
 3. **Saadi, A., Belhadef, H., Guessas, A., & Hafirassou, O. (2025).** *Enhancing Fake News Detection with Transformer Models and Summarization.* *Engineering, Technology & Applied Science Research, 15*(3), 23253–23259. DOI: [10.48084/etasr.10678](https://doi.org/10.48084/etasr.10678)
 
-*Dataset citation:* Kaggle. *Fake and Real News Dataset.* Retrieved 2025. [Link](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset)
-
 ---
 
 ## 📊 Dataset Collection & Preparation
@@ -36,23 +34,15 @@ A transformer-based NLP model (**DistilBERT**) was fine-tuned on English news ar
 **Files used:** `Fake.csv` (23,481 rows), `True.csv` (21,417 rows)  
 **Total combined:** 44,898 records  
 
-### 🧹 Cleaning & Normalization Steps
-| Step | Description |
-|------|--------------|
-| Merging & Labeling | Added label column (0 = Fake, 1 = Real). |
-| Duplicate Removal | Dropped 6,252 duplicates. |
-| Short Text Filter | Removed 144 rows under 50 chars. |
-| Text Normalization | Removed URLs, special symbols, and extra whitespace. |
-| Column Merge | Combined *title* + *text* into `content` column. |
+### Columns
+1. `title`  
+2. `text`  
+3. `subject`  
+4. `date`  
+5. `label`  
+6. `content`  
 
-📦 **Final Shape:** 38,502 rows × 6 columns  
-🗂 **Cleaned Dataset:** `data/processed/cleaned_combined.csv`
-
-**Label Distribution**
-| Class | Label | Proportion |
-|--------|--------|-------------|
-| Real News | 1 | 55% |
-| Fake News | 0 | 45% |
+The `content` column merges **title** and **text** to create richer contextual input for modeling.
 
 ---
 
@@ -60,51 +50,52 @@ A transformer-based NLP model (**DistilBERT**) was fine-tuned on English news ar
 
 ### 1️⃣ Baseline Model
 - **TF-IDF + Logistic Regression**
-- Metrics: Accuracy = 0.89, Precision = 0.88, Recall = 0.87  
+- Metrics:  
+  | Metric | TF-IDF + Logistic Regression | DistilBERT (Fine-Tuned) |
+  |:--|:--:|:--:|
+  | Accuracy | 0.9856 | 0.9987 |
+  | Precision | 0.9818 | 0.9987 |
+  | Recall | 0.9922 | 0.9987 |
+  | F1-score | 0.9870 | 0.9987 |
 - Served as interpretability baseline.
 
 ### 2️⃣ Fine-Tuned Model
 - **DistilBERT Base Uncased** (Hugging Face)
-- Optimizer: AdamW, Learning Rate: 2e-5, Batch Size: 16  
+- Optimizer: AdamW  
+- Learning Rate: 2e-5  
+- Batch Size: 16  
 - Training Epochs: 3  
-- Final Accuracy: **0.942** on validation set  
+- Validation metrics shown above.  
 - Metrics visualization: `figures/metrics_comparison_bar.png`, `figures/confusion_matrices_comparison.png`
 
 ### 3️⃣ Explainability
-- **SHAP** used to identify influential tokens.
-- Highlighted linguistic cues and emotional patterns driving misclassifications.
+**SHAP (SHapley Additive Explanations)** will be integrated in a future version to interpret token-level importance and explain model decisions.
 
 ---
 
 ## 🧩 Project Structure
 
 ```
-B198project/
-│
-├── app.py                           # Flask app for inference
-├── Requirements.txt
 ├── README.md
-│
-├── data/
-│   └── processed/
+├── Requirements.txt
+├── app.py
+├── data
+│   └── processed
 │       └── cleaned_combined.csv
-│
-├── datasets/
+├── datasets
 │   ├── Fake.csv
 │   └── True.csv
-│
-├── figures/
-│   ├── metrics_comparison_bar.png
+├── figures
 │   ├── confusion_matrices_comparison.png
+│   ├── metrics_comparison_bar.png
+│   ├── model_comparison_metrics.csv
 │   └── total_misclassifications.png
-│
-├── notebooks/
+├── notebooks
 │   ├── 01_data_preparation.ipynb
 │   ├── 02_baseline_model.ipynb
 │   ├── 03_distilbert_finetuning.ipynb
 │   └── 04_evaluation_and_results.ipynb
-│
-└── trained_distilbert_fake_news/
+└── trained_distilbert_fake_news
     ├── config.json
     ├── model.safetensors
     └── training_args.bin
@@ -138,7 +129,7 @@ git lfs pull
 | ML | PyTorch, Accelerate, Safetensors |
 | Visualization | Matplotlib |
 | Explainability | SHAP |
-| App Layer | Flask |
+| Dashboard | Streamlit |
 | Dev Tools | JupyterLab, Git, Git LFS |
 
 ---
@@ -162,30 +153,33 @@ git lfs install
 git lfs pull
 ```
 
-### 4️⃣ Run app
+### 4️⃣ Run the Streamlit dashboard
 ```bash
-python app.py
+streamlit run app.py
 ```
 
-or open individual notebooks inside `/notebooks/`.
+The dashboard allows users to test news articles in real time and view prediction confidence.
 
 ---
 
 ## 🧠 Results Summary
+The TF-IDF baseline achieved **98.5% accuracy**, while the fine-tuned **DistilBERT reached 99.8%**.  
+Removing very short texts (<50 characters) improved overall consistency and model focus.
 
-| Model | Accuracy | Precision | Recall | F1-Score |
-|--------|-----------|------------|---------|-----------|
-| TF-IDF + Logistic Regression | 0.89 | 0.88 | 0.87 | 0.88 |
-| DistilBERT Fine-Tuned | **0.94** | **0.93** | **0.94** | **0.94** |
+---
 
-Misclassification analysis revealed higher confusion in **neutral-toned articles**, aligning with prior research on human cognitive bias in misinformation detection.
+## 🔮 Future Work
+- Add SHAP explainability  
+- Add multilingual dataset  
+- Include human comparison in report phase  
+- Deploy as online verification tool  
 
 ---
 
 ## 👤 Author
 **Eren Burak Gökpınar**  
 GISMA University of Applied Sciences  
-**Module:** B198 End-to-End Project
+**Module:** B198 End-to-End Project  
 
 ---
 
