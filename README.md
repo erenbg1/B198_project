@@ -66,6 +66,7 @@ The DistilBERT model showed higher overall performance and fewer misclassificati
 ---
 
 ## Figures and Visualizations
+![Comparison Metrics](figures/metrics_comparison_bar.png)
 All figures generated during the evaluation process are stored in the `figures/` directory. These include:
 
 - Class distribution of fake and real news articles
