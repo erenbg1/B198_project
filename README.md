@@ -107,6 +107,11 @@ These visualizations support the quantitative evaluation discussed in the report
 ```
 
 ---
+## Conclusion and Impact
+
+The results demonstrate that while traditional models like Logistic Regression are efficient, DistilBERT significantly improves reliability by capturing context. This is crucial for real-world fake news detection to maintain public trust and reduce the spread of misinformation.
+
+---
 
 ## How to Run
 Clone the repository and install the required dependencies:
