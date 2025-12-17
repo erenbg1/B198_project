@@ -21,7 +21,7 @@ The main objective of the project is to evaluate how a simple baseline model per
 
 ## Dataset
 Source: Kaggle – Fake and Real News Dataset  
-Link: [https://www.kaggle.com/](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset)
+Link: [https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset]
 
 Files used:
 - Fake.csv
