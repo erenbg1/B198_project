@@ -1,93 +1,86 @@
-# 🧠 Fake News Detection using Transformer Models  
-### *A Comparative Study of Human vs AI Judgment*
+# Fake News Detection using Machine Learning and Transformer Models
+
+## Project Overview
+This project focuses on detecting fake news articles using natural language processing techniques. Two different modelling approaches were implemented and compared on the same dataset:
+
+- A traditional machine learning baseline using TF-IDF and Logistic Regression
+- A transformer-based model using fine-tuned DistilBERT
+
+The main objective of the project is to evaluate how a simple baseline model performs compared to a more advanced transformer-based model under similar conditions.
 
 ---
 
-## 📄 Project Overview
-This project investigates how **Artificial Intelligence** compares to **human intuition** in detecting fake news.  
-A transformer-based NLP model (**DistilBERT**) was fine-tuned on English news articles to classify them as *real* or *fake*, and its performance was evaluated against a human participant’s manual judgments.
+## Objectives
+- Build an end-to-end fake news detection pipeline
+- Preprocess and clean a large-scale news dataset
+- Establish a baseline using TF-IDF and Logistic Regression
+- Fine-tune a DistilBERT model for text classification
+- Compare model performance using standard evaluation metrics
 
 ---
 
-## 🎯 Objectives
-- Build a reproducible end-to-end fake news detection pipeline.  
-- Clean and normalize the Kaggle *Fake/Real News* dataset.  
-- Establish a **TF-IDF + Logistic Regression** baseline.  
-- Fine-tune **DistilBERT** and compare its accuracy to human evaluation.  
-- Analyze misclassification patterns and discuss implications for AI trust and interpretability.
+## Dataset
+Source: Kaggle – Fake and Real News Dataset  
+Link: https://www.kaggle.com/
+
+Files used:
+- Fake.csv
+- True.csv
+
+The dataset contains approximately 45,000 English news articles with binary labels (Fake / Real).
+To provide richer contextual information, the title and main text of each article were merged into a single text field before training.
+
+Preprocessing steps include:
+- Removing duplicate entries
+- Filtering very short or uninformative texts
+- Basic text normalization
 
 ---
 
-## 📚 Verified Literature (2023–2025)
+## Models and Methodology
 
-1. **Ramzan, A., Ali, R. H., Ali, N., & Khan, A. (2024).** *Enhancing Fake News Detection Using BERT: A Comparative Analysis of Logistic Regression, RFC, LSTM and BERT.* In 2024 International Conference on IT and Industrial Technologies (ICIT). IEEE. DOI: [10.1109/ICIT63607.2024.10859673](https://doi.org/10.1109/ICIT63607.2024.10859673)  
-2. **Kitanovski, M., & Mitrevski, P. (2023).** *DistilBERT and RoBERTa Models for Identification of Fake News.* 46th MIPRO ICT and Electronics Convention. IEEE. DOI: [10.23919/MIPRO57284.2023.10159740](https://doi.org/10.23919/MIPRO57284.2023.10159740)  
-3. **Saadi, A., Belhadef, H., Guessas, A., & Hafirassou, O. (2025).** *Enhancing Fake News Detection with Transformer Models and Summarization.* *Engineering, Technology & Applied Science Research, 15*(3), 23253–23259. DOI: [10.48084/etasr.10678](https://doi.org/10.48084/etasr.10678)
+### Baseline Model
+- Text representation: TF-IDF
+- Classifier: Logistic Regression
 
-*Dataset citation:* Kaggle. *Fake and Real News Dataset.* Retrieved 2025.
+This approach is computationally efficient, easy to interpret, and fast to train. It serves as a strong baseline for comparison.
 
----
+### Transformer-Based Model
+- Model: DistilBERT (distilbert-base-uncased)
+- Approach: Fine-tuning using Hugging Face Transformers
+- Training epochs: 2
+- Batch size: 8
 
-## 📊 Dataset Collection & Preparation
-
-**Source:** Kaggle – *Fake and Real News Dataset*  
-**Files used:** `Fake.csv` (23,481 rows), `True.csv` (21,417 rows)  
-**Total combined:** 44,898 records  
-
-### Columns
-1. `title`  
-2. `text`  
-3. `subject`  
-4. `date`  
-5. `label`  
-6. `content`  
-
-The `content` column merges **title** and **text** to create richer contextual input for modeling.
-
-Cleaning highlights:
-- Removed duplicates
-- Filtered very short texts (<50 characters)
-- Normalized text (URLs, symbols, whitespace)
+DistilBERT was selected due to its balance between performance and computational efficiency, making it suitable for training on standard hardware.
 
 ---
 
-## ⚙️ Model Architecture & Workflow
+## Results Summary
+Both models were evaluated using accuracy, precision, recall, and F1-score.
 
-### 1️⃣ Baseline Model
-- **TF-IDF + Logistic Regression**
-- Metrics (validated from notebooks & figures):  
-  | Metric | TF-IDF + Logistic Regression | DistilBERT (Fine-Tuned) |
-  |:--|:--:|:--:|
-  | Accuracy | **0.9856** | **0.9987** |
-  | Precision | **0.9818** | **0.9987** |
-  | Recall | **0.9922** | **0.9987** |
-  | F1-score | **0.9870** | **0.9987** |
-- Total misclassifications: **111** (LogReg) vs **10** (DistilBERT).  
-- Confusion matrices and metric bars are available under `figures/`.
+- TF-IDF + Logistic Regression achieved an accuracy of approximately 98.56%.
+- Fine-tuned DistilBERT achieved an accuracy of approximately 99.87%.
 
-### 2️⃣ Fine-Tuned Model
-- **Model:** DistilBERT Base Uncased (Hugging Face)
-- **Optimizer:** AdamW (Hugging Face Trainer)
-- **Learning Rate:** 2e-5
-- **Epochs:** 2
-- **Batch Size:** 8 (train & eval)
-- **Warmup Steps:** 100
-- **Weight Decay:** 0.01
-- **Evaluation Strategy:** Per epoch
-- **Save Strategy:** Per epoch
-- **Final Accuracy:** **0.9987** (validation set)
-- **Metrics Visualization:** `figures/metrics_comparison_bar.png`, `figures/confusion_matrices_comparison.png`, `figures/total_misclassifications.png`
-
-### 3️⃣ Explainability
-**SHAP (SHapley Additive Explanations)** will be integrated in a future version to interpret token-level importance and explain model decisions.
+The DistilBERT model showed higher overall performance and fewer misclassifications, particularly in recall and F1-score.
 
 ---
 
-## 🧩 Project Structure
+## Figures and Visualizations
+All figures generated during the evaluation process are stored in the `figures/` directory. These include:
 
+- Class distribution of fake and real news articles
+- Confusion matrix comparison between models
+- Metric comparison bar charts
+- Total misclassification comparison
+
+These visualizations support the quantitative evaluation discussed in the report.
+
+---
+
+## Project Structure
 ```
 ├── README.md
-├── Requirements.txt
+├── requirements.txt
 ├── app.py
 ├── data
 │   └── processed
@@ -96,6 +89,7 @@ Cleaning highlights:
 │   ├── Fake.csv
 │   └── True.csv
 ├── figures
+│   ├── class_distribution.png
 │   ├── confusion_matrices_comparison.png
 │   ├── metrics_comparison_bar.png
 │   ├── model_comparison_metrics.csv
@@ -105,7 +99,7 @@ Cleaning highlights:
 │   ├── 02_baseline_model.ipynb
 │   ├── 03_distilbert_finetuning.ipynb
 │   └── 04_evaluation_and_results.ipynb
-└── trained_distilbert_fake_news
+└── trained_model
     ├── config.json
     ├── model.safetensors
     └── training_args.bin
@@ -113,83 +107,46 @@ Cleaning highlights:
 
 ---
 
-## ⚠️ Note on Git LFS Files
-This repository uses **Git Large File Storage (LFS)** for large model and dataset files.
+## How to Run
+Clone the repository and install the required dependencies:
 
-Tracked via LFS:
-- `data/processed/cleaned_combined.csv`
-- `datasets/Fake.csv`
-- `datasets/True.csv`
-- `trained_distilbert_fake_news/model.safetensors`
-
-If cloning the repo, run:
-```bash
-git lfs install
-git lfs pull
-```
-
----
-
-## 🧰 Tools & Libraries
-| Category | Libraries |
-|-----------|------------|
-| Core | Pandas, NumPy, scikit-learn |
-| NLP | Transformers, Datasets, Tokenizers |
-| ML | PyTorch, Accelerate, Safetensors |
-| Visualization | Matplotlib |
-| Explainability | SHAP (planned) |
-| Dashboard | Streamlit |
-| Dev Tools | JupyterLab, Git, Git LFS |
-
----
-
-## 🚀 Quick Setup & Run
-
-### 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/erenbg1/B198_project.git
 cd B198_project
+pip install -r requirements.txt
 ```
 
-### 2️⃣ Install dependencies
-```bash
-pip install -r Requirements.txt
-```
-
-### 3️⃣ Pull LFS files (if needed)
+(Optional, for large files)
 ```bash
 git lfs install
 git lfs pull
 ```
 
-### 4️⃣ Run the Streamlit dashboard
+To run the demo application:
 ```bash
 streamlit run app.py
 ```
-The dashboard allows users to test news articles in real time and view prediction confidence.
 
 ---
 
-## 🧠 Results Summary
-The TF-IDF baseline achieved **98.56% accuracy**, while the fine-tuned **DistilBERT reached 99.87%** on the validation set.  
-Removing very short texts (<50 characters) improved overall consistency and model focus.
+## Tools and Libraries
+- Python
+- Pandas
+- NumPy
+- scikit-learn
+- PyTorch
+- Hugging Face Transformers
+- Matplotlib
+- Streamlit
 
 ---
 
-## 🔮 Future Work
-- Add SHAP explainability  
-- Add multilingual dataset 
-- Deploy as online verification tool  
-
----
-
-## 👤 Author
-**Eren Burak Gökpınar**  
+## Author
+Eren Burak Gökpınar  
 GISMA University of Applied Sciences  
-**Module:** B198 End-to-End Project  
+Module: B198 – End-to-End Project
 
 ---
 
-## 🏁 License
-This project is distributed for educational and research purposes under the MIT License.  
-See the full license text in `LICENSE` if provided.
+## License
+This project is shared for educational purposes.

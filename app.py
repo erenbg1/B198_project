@@ -11,7 +11,7 @@ st.set_page_config(page_title="Fake News Detector", page_icon="📰", layout="ce
 # --- Load Model ---
 @st.cache_resource
 def load_model():
-    model_path = os.path.abspath("notebooks/trained_distilbert_fake_news")
+    model_path = os.path.abspath("trained_distilbert_fake_news")
     model = DistilBertForSequenceClassification.from_pretrained(model_path)
     tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased")
     model.config.id2label = {0: "Fake", 1: "Real"}
